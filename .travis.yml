@@ -24,7 +24,38 @@ php:
 env:
   - DB=mysql
   - DB=pgsql
-
+stages:
+  - build
+  - test
+  - deploy
+jobs:
+  include:
+    #amd64 job
+    - os: linux-amd64
+      env:
+        - ARCH=amd64
+        - ARCH_STRING=""
+  
+    #ppc64le job
+    - os: linux-ppc64le
+      dist: bionic
+      env:
+        - ARCH=ppc64le
+        - ARCH_STRING="-ppc64le"
+    - stage: build
+      script:
+        - top
+        - ls
+    - stage: build
+      script:
+        - mkdir hari
+    - stage: test
+      script: 
+        - touch hari
+    - stage: deploy
+      script:
+        - top
+        
 # optionally set up exclusions and allowed failures in the matrix
 matrix:
   exclude:
